@@ -25,6 +25,13 @@ all_certs_found=true
 for cacerts_path in $cacerts_paths; do
   echo "正在檢查 cacerts 檔案: $cacerts_path"
 
+  # 檢查檔案是否為有效 keystore
+  $keytool_path -list -storepass 'changeit' -keystore "$cacerts_path" &>/dev/null
+  if [ $? -ne 0 ]; then
+    #echo "檔案 $cacerts_path 並非有效的 keystore，跳過..."
+    continue
+  fi
+
   # 獲取證書資訊
   cert_info=$($keytool_path -list -v -storepass 'changeit' -keystore "$cacerts_path" 2>/dev/null | grep -iE 'O=Google Trust Services LLC|O=Amazon|O=Sectigo Limited')
 
