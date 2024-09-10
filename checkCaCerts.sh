@@ -9,13 +9,12 @@ else
     keytool_path=$(find / -type f -name keytool 2>/dev/null | xargs ls -lt 2>/dev/null | head -n 1 | awk '{print $NF}')
 fi
 
-
 # 尋找 cacerts 檔案
 cacerts_paths=$(find / -type f -name cacerts 2>/dev/null)
 
 # 檢查是否找到 cacerts 檔案
 if [ -z "$cacerts_paths" ]; then
-  echo "未找到 cacerts 檔案"
+  echo -e "\033[1;31m未找到 cacerts 檔案\033[0m"
   exit 1
 fi
 
@@ -33,18 +32,18 @@ for cacerts_path in $cacerts_paths; do
   if [[ "$cert_info" == *"O=Google Trust Services LLC"* ]] && \
      [[ "$cert_info" == *"O=Amazon"* ]] && \
      [[ "$cert_info" == *"O=Sectigo Limited"* ]]; then
-    echo "在檔案 $cacerts_path 中找到所有指定的證書資訊"
+    echo -e "\033[1;32m在檔案 $cacerts_path 中找到所有指定的證書資訊\033[0m"
   else
-    echo "檔案 $cacerts_path 中未找到所有指定的證書資訊"
+    echo -e "\033[1;31m檔案 $cacerts_path 中未找到所有指定的證書資訊\033[0m"
     all_certs_found=false
   fi
 done
 
 # 根據所有檔案的結果來決定是否成功
 if [ "$all_certs_found" = true ]; then
-  echo "所有 cacerts 檔案中都包含指定的證書資訊"
+  echo -e "\033[1;32m所有 cacerts 檔案中都包含指定的證書資訊\033[0m"
   exit 0
 else
-  echo "並非所有 cacerts 檔案都包含指定的證書資訊"
+  echo -e "\033[1;31m並非所有 cacerts 檔案都包含指定的證書資訊\033[0m"
   exit 1
 fi
