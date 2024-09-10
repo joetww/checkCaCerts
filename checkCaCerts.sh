@@ -48,9 +48,9 @@ done
 
 # 根據所有檔案的結果來決定是否成功
 if [ "$all_certs_found" = true ]; then
-  echo -e "\033[1;32m所有 cacerts 檔案中都包含指定的證書資訊\033[0m"
+  #echo -e "\033[1;32m所有 cacerts 檔案中都包含指定的證書資訊\033[0m"
   exit 0
 else
-  echo -e "\033[1;31m並非所有 cacerts 檔案都包含指定的證書資訊\033[0m"
+  #echo -e "\033[1;31m並非所有 cacerts 檔案都包含指定的證書資訊\033[0m"
   exit 1
 fi
