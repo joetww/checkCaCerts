@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#尋找可用keytool
+latest_keytool=$(find / -type f -name keytool 2>/dev/null | xargs ls -lt 2>/dev/null | head -n 1 | awk '{print $NF}')
+
 # 尋找 cacerts 檔案
 cacerts_paths=$(find / -type f -name cacerts 2>/dev/null)
 
@@ -14,7 +17,7 @@ for cacerts_path in $cacerts_paths; do
   echo "找到 cacerts 檔案: $cacerts_path"
 
   # 獲取證書資訊
-  cert_info=$(keytool -list -v -storepass 'changeit' -keystore "$cacerts_path" 2>/dev/null | grep -E 'O=Google Trust Services LLC|O=Amazon|O=Sectigo Limited')
+  cert_info=$($latest_keytool -list -v -storepass 'changeit' -keystore "$cacerts_path" 2>/dev/null | grep -E 'O=Google Trust Services LLC|O=Amazon|O=Sectigo Limited')
 
   # 檢查是否包含三個指定的證書資訊
   if [[ "$cert_info" == *"O=Google Trust Services LLC"* ]] && \
