@@ -23,7 +23,7 @@ all_certs_found=true
 
 # 檢查每個找到的 cacerts 檔案
 for cacerts_path in $cacerts_paths; do
-  echo "正在檢查 cacerts 檔案: $cacerts_path"
+#echo "正在檢查 cacerts 檔案: $cacerts_path"
 
   # 檢查檔案是否為有效 keystore
   $keytool_path -list -storepass 'changeit' -keystore "$cacerts_path" &>/dev/null
